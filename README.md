@@ -1,97 +1,119 @@
-# QIC Gamified Insurance App
+# QIC Gamified Insurance App - MVP
 
-An AI-powered gamified insurance application for QIC that combines personalized missions, skill trees, social features, and scenario simulations to boost engagement and retention.
+A gamified insurance application for QIC featuring missions, rewards, skill trees, and AI-powered scenarios.
 
-## Project info
+## 🚀 Quick Start (MVP)
 
-**URL**: https://lovable.dev/projects/3a10a1f3-125a-46be-a467-a445c5d7cc31
+### Prerequisites
+- Node.js 18+ 
+- npm
 
-## Quick Start
+### 1. Clone and Install
+```bash
+git clone <repository-url>
+cd qiclife
+npm install
+cd backend && npm install
+```
 
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+### 2. Environment Setup
+```bash
+# Copy environment template (optional - MVP works with defaults)
+cp env.example .env
+```
 
-2. **Set up environment variables:**
-   ```bash
-   npm run setup
-   ```
-   This creates a `.env` file with all required environment variables. Fill in your actual API keys.
+### 3. Run the Application
+```bash
+# Terminal 1: Start Backend
+cd backend
+npm run dev
 
-3. **Start development server:**
-   ```bash
-   npm run dev
-   ```
-
-## Setup Guide
-
-For detailed setup instructions, see [SETUP.md](./SETUP.md).
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/3a10a1f3-125a-46be-a467-a445c5d7cc31) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Terminal 2: Start Frontend  
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### 4. Open Application
+- Frontend: http://localhost:8080
+- Backend API: http://localhost:3001
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## ✨ Features (MVP)
 
-**Use GitHub Codespaces**
+- **Health Dashboard**: System status and version info
+- **Missions**: Start and complete gamified tasks
+- **Scenarios**: AI-powered life scenario simulations  
+- **Rewards**: Redeem coins for rewards
+- **Skill Tree**: Unlock skills with XP
+- **Social**: Friends list and leaderboard
+- **Profile**: User profile management
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🎨 Design
 
-## What technologies are used for this project?
+- **QIC Brand Colors**: Purple-blue primary (#5D44FF), green accent (#00D77F)
+- **Clean UI**: White backgrounds, dark grey text
+- **Responsive**: Works on desktop and mobile
 
-This project is built with:
+## 🔧 Technical Stack
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Frontend
+- React 18 + TypeScript
+- Vite (build tool)
+- Axios (API client)
+- React Router (navigation)
 
-## How can I deploy this project?
+### Backend  
+- Node.js + Express
+- Session-based authentication
+- Mock database (in-memory)
+- Winston logging
 
-Simply open [Lovable](https://lovable.dev/projects/3a10a1f3-125a-46be-a467-a445c5d7cc31) and click on Share -> Publish.
+## 📁 Project Structure
 
-## Can I connect a custom domain to my Lovable project?
+```
+qiclife/
+├── src/                    # Frontend React app
+│   ├── pages/             # Page components
+│   ├── lib/               # API client & utilities
+│   └── main.tsx           # App entry point
+├── backend/               # Backend Express server
+│   ├── routes/            # API endpoints
+│   ├── services/          # Business logic
+│   └── middleware/        # Auth, validation, etc.
+├── scripts/               # Utility scripts
+└── env.example           # Environment template
+```
 
-Yes, you can!
+## 🧪 Testing
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Run API tests:
+```bash
+powershell -File .\scripts\test-api.ps1
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 🔒 Security
+
+- Session-based authentication (no external auth required)
+- CORS configured for localhost
+- Input validation on all endpoints
+- No sensitive data in MVP
+
+## 📝 Environment Variables
+
+See `env.example` for all available options. MVP works with defaults - no external services required.
+
+## 🚀 Deployment
+
+1. Build frontend: `npm run build`
+2. Start backend: `cd backend && npm start`
+3. Serve frontend: `npm run preview`
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+Private - QIC Internal Use Only
