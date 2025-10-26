@@ -1,38 +1,158 @@
-:root {
-  --qic-primary: #5D44FF;       /* deep purple-blue */
-  --qic-primary-600: #4b36e6;
-  --qic-accent: #00D77F;        /* lime/mint green */
-  --qic-bg: #FFFFFF;            /* main panels */
-  --qic-surface: #F5F6FA;       /* soft grey cards */
-  --qic-text: #2E2E2E;          /* body text */
-  --qic-muted: #6b7280;         /* secondary text */
-  --qic-border: #E6E8EE;        /* subtle borders */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* QIC Brand Colors - Modern Digital Insurance */
+    --background: 225 33% 97%; /* Soft grey #F5F6FA */
+    --foreground: 0 0% 18%; /* Dark charcoal #2E2E2E */
+
+    --card: 0 0% 100%; /* Clean white */
+    --card-foreground: 0 0% 18%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 18%;
+
+    /* Primary: Deep Purple-Blue #5D44FF */
+    --primary: 250 100% 63%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 250 100% 75%;
+    --primary-muted: 250 100% 95%;
+
+    --secondary: 225 33% 97%;
+    --secondary-foreground: 0 0% 18%;
+
+    --muted: 225 25% 94%;
+    --muted-foreground: 0 0% 45%;
+
+    /* Gamification Colors */
+    /* Accent: Bright Lime Green #00D77F for rewards/coins */
+    --accent: 157 100% 42%;
+    --accent-foreground: 0 0% 100%;
+    --accent-glow: 157 100% 55%;
+    
+    /* Success: Same lime green for achievements */
+    --success: 157 100% 42%;
+    --success-foreground: 0 0% 100%;
+    
+    /* XP: Light purple variant */
+    --xp: 260 85% 70%;
+    --xp-foreground: 0 0% 100%;
+    
+    /* Level: Teal accent */
+    --level: 180 70% 50%;
+    --level-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 225 20% 90%;
+    --input: 225 20% 90%;
+    --ring: 250 100% 63%;
+
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(250 100% 63%) 0%, hsl(250 100% 75%) 100%);
+    --gradient-success: linear-gradient(135deg, hsl(157 100% 42%) 0%, hsl(157 100% 55%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(157 100% 42%) 0%, hsl(157 100% 55%) 100%);
+    --gradient-xp: linear-gradient(135deg, hsl(260 85% 70%) 0%, hsl(260 85% 80%) 100%);
+    --gradient-level: linear-gradient(135deg, hsl(180 70% 50%) 0%, hsl(180 70% 60%) 100%);
+    
+    /* Shadows - subtle for modern clean look */
+    --shadow-card: 0 2px 12px -2px hsl(250 100% 63% / 0.08);
+    --shadow-card-hover: 0 8px 32px -4px hsl(250 100% 63% / 0.15);
+    --shadow-glow: 0 0 24px hsl(250 100% 63% / 0.25);
+    --shadow-success: 0 0 20px hsl(157 100% 42% / 0.3);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 18%;
+    --sidebar-primary: 250 100% 63%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 225 33% 97%;
+    --sidebar-accent-foreground: 0 0% 18%;
+    --sidebar-border: 225 20% 90%;
+    --sidebar-ring: 250 100% 63%;
+  }
+
+  .dark {
+    --background: 250 25% 10%;
+    --foreground: 225 15% 92%;
+
+    --card: 250 20% 15%;
+    --card-foreground: 225 15% 92%;
+
+    --popover: 250 20% 15%;
+    --popover-foreground: 225 15% 92%;
+
+    --primary: 250 100% 68%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 250 100% 80%;
+    --primary-muted: 250 60% 20%;
+
+    --secondary: 250 20% 18%;
+    --secondary-foreground: 225 15% 92%;
+
+    --muted: 250 15% 20%;
+    --muted-foreground: 225 15% 60%;
+
+    --accent: 157 100% 45%;
+    --accent-foreground: 0 0% 100%;
+    --accent-glow: 157 100% 60%;
+    
+    --success: 157 100% 45%;
+    --success-foreground: 0 0% 100%;
+    
+    --xp: 260 85% 75%;
+    --xp-foreground: 0 0% 100%;
+    
+    --level: 180 70% 55%;
+    --level-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 250 20% 25%;
+    --input: 250 20% 25%;
+    --ring: 250 100% 68%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(250 100% 63%) 0%, hsl(250 100% 78%) 100%);
+    --gradient-success: linear-gradient(135deg, hsl(157 100% 42%) 0%, hsl(157 100% 60%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(157 100% 42%) 0%, hsl(157 100% 60%) 100%);
+    --gradient-xp: linear-gradient(135deg, hsl(260 85% 70%) 0%, hsl(260 85% 85%) 100%);
+    --gradient-level: linear-gradient(135deg, hsl(180 70% 50%) 0%, hsl(180 70% 65%) 100%);
+
+    --shadow-card: 0 2px 12px -2px hsl(0 0% 0% / 0.4);
+    --shadow-card-hover: 0 8px 32px -4px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 24px hsl(250 100% 63% / 0.4);
+    --shadow-success: 0 0 20px hsl(157 100% 42% / 0.4);
+
+    --sidebar-background: 250 20% 12%;
+    --sidebar-foreground: 225 15% 92%;
+    --sidebar-primary: 250 100% 68%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 250 20% 18%;
+    --sidebar-accent-foreground: 225 15% 92%;
+    --sidebar-border: 250 20% 25%;
+    --sidebar-ring: 250 100% 68%;
+  }
 }
 
-html, body, #root { height: 100%; }
-body {
-  margin: 0;
-  background: var(--qic-surface);
-  color: var(--qic-text);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-}
+@layer base {
+  * {
+    @apply border-border;
+  }
 
-/* Links and buttons use brand colors */
-a { color: var(--qic-primary); text-decoration: none; }
-button {
-  cursor: pointer;
-  background: var(--qic-primary);
-  color: white;
-  border: 1px solid var(--qic-primary-600);
-  padding: 8px 12px;
-  border-radius: 8px;
+  body {
+    @apply bg-background text-foreground;
+  }
 }
-button:disabled { opacity: 0.6; }
-
-/* Simple card utility */
-.qic-card {
-  background: var(--qic-bg);
-  border: 1px solid var(--qic-border);
-  border-radius: 12px;
-}
-

@@ -1,79 +1,112 @@
-import axios from 'axios';
-import { getOrCreateSessionId } from './session';
+import axios, { AxiosError } from 'axios';
+import type {
+  ApiResponse,
+  UserProfile,
+  UserStats,
+  Mission,
+  MissionCompletion,
+  Reward,
+  RewardRedemption,
+  Skill,
+  LeaderboardEntry,
+  Friend,
+  OnboardingData,
+  Scenario,
+  ScenarioResult,
+} from '@/types/api';
 
-const baseURL = (import.meta as any).env?.VITE_BACKEND_URL || 'http://localhost:3001';
+// Use environment variable for API URL, fallback to localhost for development
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
-export const api = axios.create({
-  baseURL,
-  headers: { 'x-session-id': getOrCreateSessionId() },
+// Get or create session ID
+export const getSessionId = (): string => {
+  let sessionId = localStorage.getItem('qic-session-id');
+  if (!sessionId) {
+    sessionId = crypto.randomUUID();
+    localStorage.setItem('qic-session-id', sessionId);
+  }
+  return sessionId;
+};
+
+// Create axios instance with session header
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
-export async function health() {
-  const { data } = await api.get('/api/health');
-  return data;
-}
+// Add session ID to all requests
+api.interceptors.request.use((config) => {
+  config.headers['x-session-id'] = getSessionId();
+  return config;
+});
 
-// Missions
-export async function getMissions() {
-  const { data } = await api.get('/api/missions');
-  // backend returns { data: { missions, pagination } }
-  return data?.data?.missions || data?.data || data;
-}
-export async function startMission(id: string) {
-  const { data } = await api.post('/api/missions/start', { missionId: id });
-  return data;
-}
-export async function completeMission(id: string) {
-  const { data } = await api.post('/api/missions/complete', { missionId: id });
-  return data;
-}
+// Enhanced error handling interceptor
+api.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError) => {
+    // Handle network errors
+    if (!error.response) {
+      console.error('Network error - backend may be offline:', error.message);
+      throw new Error('Unable to connect to server. Please ensure the backend is running on port 3001.');
+    }
+    
+    // Handle specific HTTP errors
+    if (error.response.status === 429) {
+      throw new Error('Too many requests. Please wait a moment and try again.');
+    }
+    
+    if (error.response.status >= 500) {
+      throw new Error('Server error. Please try again later.');
+    }
+    
+    // Pass through other errors with response data
+    throw error;
+  }
+);
 
-// Scenarios
-export async function simulateScenario(payload: any) {
-  const { data } = await api.post('/api/scenarios/simulate', payload);
-  return data;
-}
+// API Methods with proper TypeScript types
+export const apiClient = {
+  // Health
+  getHealth: () => api.get<ApiResponse<{ status: string; timestamp: string }>>('/health'),
 
-// Rewards
-export async function getRewards() {
-  const { data } = await api.get('/api/rewards');
-  return data?.data?.rewards || data?.data || data;
-}
-export async function redeemReward(id: string) {
-  const { data } = await api.post('/api/rewards/redeem', { rewardId: id });
-  return data;
-}
+  // Profile
+  getProfile: () => api.get<ApiResponse<UserProfile>>('/profile'),
+  updateProfile: (data: Partial<UserProfile>) => api.put<ApiResponse<UserProfile>>('/profile', data),
+  getStats: () => api.get<ApiResponse<UserStats>>('/profile/stats'),
 
-// Skill Tree
-export async function getSkills() {
-  const { data } = await api.get('/api/skill-tree');
-  // backend returns tree with levels/skills; normalize to skills list for UI
-  const skills = data?.data?.skills || data?.skills || [];
-  return skills;
-}
-export async function unlockSkill(id: string) {
-  const { data } = await api.post('/api/skill-tree/unlock', { skillId: id });
-  return data;
-}
+  // Missions
+  getMissions: () => api.get<ApiResponse<{ missions: Mission[] }>>('/missions'),
+  getMissionById: (id: string) => api.get<ApiResponse<Mission>>(`/missions/${id}`),
+  startMission: (id: string) => api.post<ApiResponse<{ mission: Mission }>>(`/missions/${id}/start`),
+  completeMission: (id: string) => api.post<ApiResponse<MissionCompletion>>(`/missions/${id}/complete`),
 
-// Social
-export async function getSocialFeed() {
-  // use leaderboard and friends as a basic feed
-  const [friends, leaderboard] = await Promise.all([
-    api.get('/api/social/friends'),
-    api.get('/api/social/leaderboard'),
-  ]);
-  return { friends: friends.data?.data?.friends || [], leaderboard: leaderboard.data?.data?.leaderboard || [] };
-}
+  // Rewards
+  getRewards: () => api.get<ApiResponse<{ rewards: Reward[] }>>('/rewards'),
+  getRewardById: (id: string) => api.get<ApiResponse<Reward>>(`/rewards/${id}`),
+  redeemReward: (id: string) => api.post<ApiResponse<RewardRedemption>>(`/rewards/${id}/redeem`),
+  getRedemptions: () => api.get<ApiResponse<{ redemptions: RewardRedemption[] }>>('/rewards/redemptions'),
 
-// Profile
-export async function getProfile() {
-  const { data } = await api.get('/api/profile');
-  return data?.data || data;
-}
-export async function updateProfile(payload: any) {
-  const { data } = await api.put('/api/profile', payload);
-  return data;
-}
+  // Skills
+  getSkills: () => api.get<ApiResponse<{ skills: Skill[] }>>('/skills'),
+  unlockSkill: (id: string) => api.post<ApiResponse<{ skill: Skill; remainingXP: number }>>(`/skills/${id}/unlock`),
 
+  // Social
+  getLeaderboard: (limit?: number) => 
+    api.get<ApiResponse<{ leaderboard: LeaderboardEntry[] }>>('/social/leaderboard', { params: { limit } }),
+  getFriends: () => api.get<ApiResponse<{ friends: Friend[] }>>('/social/friends'),
+  addFriend: (friendId: string) => api.post<ApiResponse<Friend>>('/social/friends', { friendId }),
+  removeFriend: (friendId: string) => api.delete<ApiResponse<{ message: string }>>(`/social/friends/${friendId}`),
 
+  // Onboarding
+  completeOnboarding: (data: OnboardingData) => 
+    api.post<ApiResponse<{ profile: UserProfile; initialMissions: Mission[] }>>('/onboarding/complete', data),
+
+  // Scenarios
+  getScenarios: () => api.get<ApiResponse<{ scenarios: Scenario[] }>>('/scenarios'),
+  submitScenario: (scenarioId: string, choice: string) => 
+    api.post<ApiResponse<ScenarioResult>>(`/scenarios/${scenarioId}/submit`, { choice }),
+};
+
+export default api;
