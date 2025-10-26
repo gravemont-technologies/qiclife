@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api";
 import { StatCard } from "@/components/StatCard";
 import { MissionCard } from "@/components/MissionCard";
+import { LoadingState } from "@/components/LoadingState";
+import { ErrorState } from "@/components/ErrorState";
 import { Heart, Trophy, Coins, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const { data: profile, refetch: refetchProfile } = useQuery({
+  const { data: profile, isLoading: profileLoading, error: profileError, refetch: refetchProfile } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
       const res = await apiClient.getProfile();
@@ -27,7 +28,7 @@ const Dashboard = () => {
     },
   });
 
-  const { data: missions, refetch: refetchMissions } = useQuery({
+  const { data: missions, isLoading: missionsLoading, error: missionsError, refetch: refetchMissions } = useQuery({
     queryKey: ["missions"],
     queryFn: async () => {
       const res = await apiClient.getMissions();
@@ -58,6 +59,23 @@ const Dashboard = () => {
 
   const activeMissions = missions?.filter((m: any) => m.isActive) || [];
   const availableMissions = missions?.filter((m: any) => !m.isActive && !m.isCompleted).slice(0, 3) || [];
+
+  // Show loading state while initial data loads
+  if (profileLoading || missionsLoading) {
+    return <LoadingState message="Loading your dashboard..." fullScreen />;
+  }
+
+  // Show error state if profile fails to load (critical)
+  if (profileError) {
+    return (
+      <ErrorState
+        title="Unable to load dashboard"
+        message="Could not connect to the backend. Please ensure the server is running on port 3001."
+        onRetry={() => refetchProfile()}
+        fullScreen
+      />
+    );
+  }
 
   const xpToNextLevel = ((profile?.level || 0) + 1) * 100;
   const xpProgress = ((profile?.totalXP || 0) % 100);
@@ -131,15 +149,26 @@ const Dashboard = () => {
               View All
             </Button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {availableMissions.map((mission: any) => (
-              <MissionCard
-                key={mission.id}
-                mission={mission}
-                onStart={handleStartMission}
-              />
-            ))}
-          </div>
+          {missionsError ? (
+            <ErrorState
+              message="Unable to load missions. Please try again."
+              onRetry={() => refetchMissions()}
+            />
+          ) : availableMissions.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {availableMissions.map((mission: any) => (
+                <MissionCard
+                  key={mission.id}
+                  mission={mission}
+                  onStart={handleStartMission}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted-foreground py-12">
+              No available missions at the moment. Check back later!
+            </p>
+          )}
         </div>
 
         {/* Quick Actions */}
