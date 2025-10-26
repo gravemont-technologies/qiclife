@@ -78,19 +78,19 @@ export const apiClient = {
 
   // Missions
   getMissions: () => api.get<ApiResponse<{ missions: Mission[] }>>('/missions'),
-  getMissionById: (id: string) => api.get<ApiResponse<Mission>>(`/missions/${id}`),
-  startMission: (id: string) => api.post<ApiResponse<{ mission: Mission }>>(`/missions/${id}/start`),
-  completeMission: (id: string) => api.post<ApiResponse<MissionCompletion>>(`/missions/${id}/complete`),
+  getMissionById: (id: string) => api.get<ApiResponse<Mission>>(`/missions/${id}`),                                                                             
+  startMission: (id: string) => api.post<ApiResponse<{ mission: Mission }>>('/missions/start', { missionId: id }),                                                           
+  completeMission: (id: string) => api.post<ApiResponse<MissionCompletion>>('/missions/complete', { missionId: id }),
 
   // Rewards
-  getRewards: () => api.get<ApiResponse<{ rewards: Reward[] }>>('/rewards'),
+  getRewards: () => api.get<ApiResponse<{ rewards: Reward[] }>>('/rewards'),    
   getRewardById: (id: string) => api.get<ApiResponse<Reward>>(`/rewards/${id}`),
-  redeemReward: (id: string) => api.post<ApiResponse<RewardRedemption>>(`/rewards/${id}/redeem`),
+  redeemReward: (id: string) => api.post<ApiResponse<RewardRedemption>>('/rewards/redeem', { rewardId: id }),                                                               
   getRedemptions: () => api.get<ApiResponse<{ redemptions: RewardRedemption[] }>>('/rewards/redemptions'),
 
-  // Skills
-  getSkills: () => api.get<ApiResponse<{ skills: Skill[] }>>('/skills'),
-  unlockSkill: (id: string) => api.post<ApiResponse<{ skill: Skill; remainingXP: number }>>(`/skills/${id}/unlock`),
+  // Skills (Skill Tree)
+  getSkills: () => api.get<ApiResponse<{ skills: Skill[] }>>('/skill-tree'),        
+  unlockSkill: (id: string) => api.post<ApiResponse<{ skill: Skill; remainingXP: number }>>(`/skill-tree/unlock`, { skillId: id }),
 
   // Social
   getLeaderboard: (limit?: number) => 
@@ -104,9 +104,9 @@ export const apiClient = {
     api.post<ApiResponse<{ profile: UserProfile; initialMissions: Mission[] }>>('/onboarding/complete', data),
 
   // Scenarios
-  getScenarios: () => api.get<ApiResponse<{ scenarios: Scenario[] }>>('/scenarios'),
-  submitScenario: (scenarioId: string, choice: string) => 
-    api.post<ApiResponse<ScenarioResult>>(`/scenarios/${scenarioId}/submit`, { choice }),
+  getScenarios: () => api.get<ApiResponse<{ scenarios: Scenario[] }>>('/scenarios'),                                                                            
+  submitScenario: (scenarioId: string, choice: string) =>
+    api.post<ApiResponse<ScenarioResult>>('/scenarios/simulate', { scenarioId, inputs: { choice } }),
 };
 
 export default api;
