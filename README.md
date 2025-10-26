@@ -1,8 +1,32 @@
-# Welcome to your Lovable project
+# QIC Gamified Insurance App
+
+An AI-powered gamified insurance application for QIC that combines personalized missions, skill trees, social features, and scenario simulations to boost engagement and retention.
 
 ## Project info
 
 **URL**: https://lovable.dev/projects/3a10a1f3-125a-46be-a467-a445c5d7cc31
+
+## Quick Start
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Set up environment variables:**
+   ```bash
+   npm run setup
+   ```
+   This creates a `.env` file with all required environment variables. Fill in your actual API keys.
+
+3. **Start development server:**
+   ```bash
+   npm run dev
+   ```
+
+## Setup Guide
+
+For detailed setup instructions, see [SETUP.md](./SETUP.md).
 
 ## How can I edit this code?
 

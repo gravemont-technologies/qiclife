@@ -53,6 +53,34 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* QIC Brand Colors */
+    --qic-primary: 262 83% 58%;        /* Purple #6F42C1 */
+    --qic-primary-foreground: 0 0% 100%;
+    --qic-secondary: 180 100% 33%;     /* Teal #00A8A8 */
+    --qic-secondary-foreground: 0 0% 100%;
+    --qic-accent: 120 61% 50%;          /* Green #32CD32 */
+    --qic-accent-foreground: 0 0% 100%;
+    --qic-neutral: 210 11% 45%;         /* Gray #6C757D */
+    --qic-neutral-foreground: 0 0% 100%;
+
+    /* Gamification Colors */
+    --qic-gold: 45 100% 50%;            /* Gold for rewards */
+    --qic-gold-foreground: 0 0% 0%;
+    --qic-xp: 200 100% 50%;             /* Blue for XP */
+    --qic-xp-foreground: 0 0% 100%;
+    --qic-streak: 15 100% 50%;          /* Orange for streaks */
+    --qic-streak-foreground: 0 0% 100%;
+    --qic-badge-common: 210 11% 45%;    /* Gray for common badges */
+    --qic-badge-rare: 262 83% 58%;      /* Purple for rare badges */
+    --qic-badge-epic: 45 100% 50%;      /* Gold for epic badges */
+    --qic-badge-legendary: 15 100% 50%; /* Orange for legendary badges */
+
+    /* LifeScore Colors */
+    --qic-lifescore-low: 0 84% 60%;     /* Red for low LifeScore */
+    --qic-lifescore-medium: 45 100% 50%; /* Yellow for medium LifeScore */
+    --qic-lifescore-high: 120 61% 50%;  /* Green for high LifeScore */
+    --qic-lifescore-excellent: 200 100% 50%; /* Blue for excellent LifeScore */
   }
 
   .dark {
@@ -91,6 +119,34 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* QIC Brand Colors - Dark Mode */
+    --qic-primary: 262 83% 65%;        /* Lighter purple for dark mode */
+    --qic-primary-foreground: 0 0% 0%;
+    --qic-secondary: 180 100% 40%;     /* Lighter teal for dark mode */
+    --qic-secondary-foreground: 0 0% 0%;
+    --qic-accent: 120 61% 55%;         /* Lighter green for dark mode */
+    --qic-accent-foreground: 0 0% 0%;
+    --qic-neutral: 210 11% 55%;        /* Lighter gray for dark mode */
+    --qic-neutral-foreground: 0 0% 0%;
+
+    /* Gamification Colors - Dark Mode */
+    --qic-gold: 45 100% 60%;           /* Lighter gold for dark mode */
+    --qic-gold-foreground: 0 0% 0%;
+    --qic-xp: 200 100% 60%;            /* Lighter blue for dark mode */
+    --qic-xp-foreground: 0 0% 0%;
+    --qic-streak: 15 100% 60%;         /* Lighter orange for dark mode */
+    --qic-streak-foreground: 0 0% 0%;
+    --qic-badge-common: 210 11% 55%;   /* Lighter gray for dark mode */
+    --qic-badge-rare: 262 83% 65%;     /* Lighter purple for dark mode */
+    --qic-badge-epic: 45 100% 60%;     /* Lighter gold for dark mode */
+    --qic-badge-legendary: 15 100% 60%; /* Lighter orange for dark mode */
+
+    /* LifeScore Colors - Dark Mode */
+    --qic-lifescore-low: 0 84% 65%;     /* Lighter red for dark mode */
+    --qic-lifescore-medium: 45 100% 60%; /* Lighter yellow for dark mode */
+    --qic-lifescore-high: 120 61% 55%;  /* Lighter green for dark mode */
+    --qic-lifescore-excellent: 200 100% 60%; /* Lighter blue for dark mode */
   }
 }
 
