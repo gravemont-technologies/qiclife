@@ -132,18 +132,14 @@ router.put('/',
 router.get('/stats', 
   authenticateUser,
   asyncHandler(async (req, res) => {
-    const userId = req.user.id;
+    // MVP: Drive stats off session to align with other routes
+    const sessionId = req.sessionId;
 
     try {
-      const stats = await gamificationService.getUserStats(userId);
-      const suggestions = await gamificationService.getAchievementSuggestions(userId);
-
+      const stats = await db.getStats(sessionId);
       res.json({
         success: true,
-        data: {
-          ...stats,
-          suggestions
-        }
+        data: stats
       });
 
     } catch (error) {

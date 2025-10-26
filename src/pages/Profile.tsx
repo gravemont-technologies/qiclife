@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getProfile, updateProfile } from '../lib/api';
+import { apiClient } from '@/lib/api';
 
 export default function Profile() {
   const [profile, setProfile] = useState<any>(null);
@@ -8,15 +8,15 @@ export default function Profile() {
 
   useEffect(() => {
     setLoading(true);
-    getProfile()
-      .then((d) => setProfile(d?.data || d))
+    apiClient.getProfile()
+      .then((res) => setProfile(res.data.data))
       .catch((e) => setError(e?.message || 'Failed to load profile'))
       .finally(() => setLoading(false));
   }, []);
 
   const save = async () => {
     try {
-      await updateProfile({ nickname: profile?.nickname || 'hero' });
+      await apiClient.updateProfile({ nickname: profile?.nickname || 'hero' });
       alert('Saved');
     } catch (e: any) {
       alert(e?.message || 'Failed to save');

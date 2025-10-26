@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import path from 'path';
 
 // Import middleware
 import { securityMiddleware } from './middleware/security.js';
@@ -58,11 +59,20 @@ app.use('/api/rewards', rewardsRoutes);
 app.use('/api/scenarios', scenariosRoutes);
 app.use('/api/skill-tree', skillTreeRoutes);
 
+// Serve frontend static files
+const clientDistPath = path.resolve(__dirname, '..', 'dist');
+app.use(express.static(clientDistPath));
+
+// SPA fallback for any non-API route
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(clientDistPath, 'index.html'));
+});
+
 // Error handling middleware (must be last)
 app.use(errorHandler);
 
-// 404 handler
-app.use('*', (req, res) => {
+// 404 handler for unknown API routes
+app.use('/api/*', (req, res) => {
   res.status(404).json({
     success: false,
     message: 'Route not found',

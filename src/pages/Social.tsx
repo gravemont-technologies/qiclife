@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getSocialFeed } from '../lib/api';
+import { apiClient } from '@/lib/api';
 
 export default function Social() {
   const [feed, setFeed] = useState<any[]>([]);
@@ -8,8 +8,8 @@ export default function Social() {
 
   useEffect(() => {
     setLoading(true);
-    getSocialFeed()
-      .then((f) => setFeed(f || []))
+    apiClient.getLeaderboard(20)
+      .then((res) => setFeed(res.data.data.leaderboard || []))
       .catch((e) => setError(e?.message || 'Failed to load social feed'))
       .finally(() => setLoading(false));
   }, []);

@@ -20,52 +20,11 @@ const mockUser = {
 
 // Authentication middleware
 export const authenticateUser = async (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
-    const sessionId = req.headers['x-session-id'];
-
-    // Allow session-only path (primary for MVP)
-    if (sessionId && (!authHeader || process.env.NODE_ENV === 'development')) {
-      req.user = mockUser;
-      req.sessionId = sessionId;
-      return next();
-    }
-
-    // Extract token from Authorization header
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({
-        success: false,
-        message: 'Authorization token required'
-      });
-    }
-
-    const token = authHeader.substring(7);
-
-    // Verify JWT token
-    let decoded;
-    try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET);
-    } catch (jwtError) {
-      return res.status(401).json({
-        success: false,
-        message: 'Invalid token'
-      });
-    }
-
-    // JWT path: do not require DB user
-    req.user = { id: decoded.userId || 'jwt-user' };
-
-    // Attach session to request
-    req.sessionId = sessionId || 'jwt-session';
-
-    next();
-  } catch (error) {
-    logger.error('Authentication error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Authentication failed'
-    });
-  }
+  // MVP: Bypass auth entirely and always attach a mock user and session
+  const sessionId = req.headers['x-session-id'] || 'dev-session';
+  req.user = mockUser;
+  req.sessionId = sessionId;
+  return next();
 };
 
 // Optional authentication middleware (doesn't fail if no auth)
