@@ -31,11 +31,23 @@ export default function App() {
               borderRadius: 5,
               cursor: 'pointer'
             }}
-            onClick={() => {
-              fetch('http://localhost:3001/api/health')
-                .then(r => r.json())
-                .then(d => alert('Backend: ' + JSON.stringify(d)))
-                .catch(e => alert('Backend error: ' + e.message));
+            onClick={async () => {
+              try {
+                console.log('Testing backend connection...');
+                const response = await fetch('http://localhost:3001/api/health', {
+                  method: 'GET',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                });
+                console.log('Response status:', response.status);
+                const data = await response.json();
+                console.log('Response data:', data);
+                alert('Backend: ' + JSON.stringify(data));
+              } catch (error) {
+                console.error('Backend error:', error);
+                alert('Backend error: ' + error.message);
+              }
             }}
           >
             Test Backend
