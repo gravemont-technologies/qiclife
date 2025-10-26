@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getSocialFeed } from '@/lib/api';
+import { getSocialFeed } from '../lib/api';
 
 export default function Social() {
   const [feed, setFeed] = useState<any[]>([]);

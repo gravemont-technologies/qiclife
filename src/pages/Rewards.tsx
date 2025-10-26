@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getRewards, redeemReward } from '@/lib/api';
+import { getRewards, redeemReward } from '../lib/api';
 
 export default function Rewards() {
   const [rewards, setRewards] = useState<any[]>([]);

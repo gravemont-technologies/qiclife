@@ -7,9 +7,12 @@ export default defineConfig({
   plugins: [react()],
   resolve: { 
     alias: { 
-      '@': path.resolve(__dirname, './src'),
-      '@/lib/api': path.resolve(__dirname, './src/lib/api.ts')
-    } 
+      '@': path.resolve(__dirname, './src')
+    },
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
+  },
+  esbuild: {
+    logOverride: { 'this-is-undefined-in-esm': 'silent' }
   }
 });
 

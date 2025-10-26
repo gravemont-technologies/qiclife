@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getProfile, updateProfile } from '@/lib/api';
+import { getProfile, updateProfile } from '../lib/api';
 
 export default function Profile() {
   const [profile, setProfile] = useState<any>(null);

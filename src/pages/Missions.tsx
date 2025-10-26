@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getMissions, startMission, completeMission } from '@/lib/api';
+import { getMissions, startMission, completeMission } from '../lib/api';
 
 export default function Missions() {
   const [missions, setMissions] = useState<any[]>([]);

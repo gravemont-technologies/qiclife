@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getSkills, unlockSkill } from '@/lib/api';
+import { getSkills, unlockSkill } from '../lib/api';
 
 export default function SkillTree() {
   const [skills, setSkills] = useState<any[]>([]);

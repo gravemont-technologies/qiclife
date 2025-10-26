@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { simulateScenario } from '@/lib/api';
+import { simulateScenario } from '../lib/api';
 
 export default function Scenarios() {
   const [result, setResult] = useState<any>(null);
