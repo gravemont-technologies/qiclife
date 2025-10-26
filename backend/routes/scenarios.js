@@ -2,6 +2,7 @@ import express from 'express';
 import { authenticateUser } from '../middleware/auth.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { aiService } from '../services/ai.service.js';
+import { db } from '../services/supabase.js';
 
 const router = express.Router();
 

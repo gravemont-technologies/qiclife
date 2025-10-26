@@ -54,16 +54,17 @@ export const onboardingSchema = Joi.object({
 
 // Mission validation schemas
 export const startMissionSchema = Joi.object({
-  missionId: Joi.string().uuid().required()
+  // MVP: accept non-GUID mission IDs from mock data
+  missionId: Joi.string().min(1).required()
 });
 
 export const completeMissionSchema = Joi.object({
-  missionId: Joi.string().uuid().required(),
+  missionId: Joi.string().min(1).required(),
   completionData: Joi.object().optional()
 });
 
 export const joinMissionSchema = Joi.object({
-  missionId: Joi.string().uuid().required()
+  missionId: Joi.string().min(1).required()
 });
 
 // Profile validation schema
